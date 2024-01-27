@@ -1,0 +1,2 @@
+def save():
+    print("tersimpan")
