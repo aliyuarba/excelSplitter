@@ -9,6 +9,18 @@ def comboFunction(event):
     print(combo.get())
     save_btn.config(state=tk.NORMAL)
 
+def clear_treeview():
+    # tree.destroy()
+    cols = [1,2,3,4]
+    tree = ttk.Treeview(disp_frame, show="headings", columns=cols, height=12)
+    tree.grid()
+
+    save_btn.config(state=tk.DISABLED)
+    clear_btn.config(state=tk.DISABLED)
+
+    combo.set('')
+    combo.state(['disabled'])
+
 def exit_program():
     root.destroy()
 
@@ -42,18 +54,6 @@ def save():
         root.update_idletasks()
         progress_bar.update()
 
-    cols = [1,2,3,4]
-    tree = ttk.Treeview(disp_frame, show="headings", columns=cols, height=12)
-    tree.grid()
-
-    save_btn.config(state=tk.DISABLED)
-
-    # combo = ttk.Combobox(control_frame, values=item, state=tk.DISABLED)
-    # combo.grid(row=0, column=1, padx=10, pady=5)
-
-    combo.set('')
-    combo.state(['disabled'])
-
     directory_path = rf'{folder_path.replace('/','\\')}'
     subprocess.Popen(f'explorer "{directory_path}"')
 
@@ -85,10 +85,12 @@ def load_data(filepath):
 
     tree.place(relx=0, rely=0, width=w)
 
-    global combo
-    combo = ttk.Combobox(control_frame, values=column_names)
-    combo.grid(row=0, column=1, padx=10, pady=5)
-    combo.bind("<<ComboboxSelected>>", comboFunction)
+    # global combo
+    # combo = ttk.Combobox(control_frame, values=column_names)
+    # combo.grid(row=0, column=1, padx=10, pady=5)
+    # combo.bind("<<ComboboxSelected>>", comboFunction)
+    combo.config(values=column_names, state=tk.NORMAL)
+    clear_btn.config(state=tk.NORMAL)
 
 def select_file():
     file_path = filedialog.askopenfilename(title="Select File", filetypes=[("Excel files", "*.xlsx;*.xls")])
@@ -137,9 +139,10 @@ control_frame.grid(row=2,column=0, sticky='W', padx=(10,0))
 label1 = ttk.Label(control_frame, text='Pilih kolom untuk memfilter:')
 label1.grid(row=0,column=0)
 
-# combo = ttk.Combobox(control_frame, values=combo_list)
-# combo.grid(row=0, column=1, padx=10, pady=5)
-# combo.state(['disabled'])
+combo = ttk.Combobox(control_frame, values=combo_list)
+combo.grid(row=0, column=1, padx=10, pady=5)
+combo.state(['disabled'])
+combo.bind("<<ComboboxSelected>>", comboFunction)
 
 execute_frame = ttk.Frame(mainframe)
 execute_frame.grid(row=2,column=0, sticky='E',padx=(0,10))
@@ -147,8 +150,11 @@ execute_frame.grid(row=2,column=0, sticky='E',padx=(0,10))
 save_btn = ttk.Button(execute_frame, text="save", command=save, state=tk.DISABLED)
 save_btn.grid(row=0, column=0)
 
+clear_btn = ttk.Button(execute_frame, text="clear", command=clear_treeview, state=tk.DISABLED)
+clear_btn.grid(row=0, column=1)
+
 exit_btn = ttk.Button(execute_frame, text="exit", command=exit_program)
-exit_btn.grid(row=0, column=1)
+exit_btn.grid(row=0, column=2)
 
 progress_var = tk.DoubleVar()
 progress_bar = ttk.Progressbar(mainframe, variable=progress_var, maximum=100)
