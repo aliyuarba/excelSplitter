@@ -41,7 +41,7 @@ def save():
     for i, j in enumerate(item):
         df_filtered = df[df[filtered_items]==j]
         # print(j)
-        # df_filtered.to_csv(f'{folder_path}\\{i+1}. {j}.csv', index=False)
+        df_filtered.to_excel(f'{folder_path}\\{i+1}. {j}.xlsx', index=False)
 
         progress_var.set((i+1)/len(item)*100)
         root.update_idletasks()
@@ -57,9 +57,6 @@ def load_data(filepath):
     sheet = workbook.active
     global list_values
     list_values = list(sheet.values)
-    # print(list_values[0][0])
-    # lists = [list(t) for t in list_values]
-    # print(lists[0:10])
 
     column_names = list_values[0]
     # mengupdate treeview
@@ -125,7 +122,7 @@ tree.grid()
 control_frame = ttk.Frame(mainframe)
 control_frame.grid(row=2,column=0, sticky='W', padx=(10,0))
 
-label1 = ttk.Label(control_frame, text='Pilih kolom untuk memfilter:')
+label1 = ttk.Label(control_frame, text='Select Column:')
 label1.grid(row=0,column=0)
 
 combo = ttk.Combobox(control_frame, values=combo_list)
