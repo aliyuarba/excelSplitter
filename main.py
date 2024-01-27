@@ -1,5 +1,5 @@
 from tkinter import *
-# from myfuncs import save
+from myfuncs import *
 
 window = Tk()
 window.geometry("500x400+700+100")
@@ -20,12 +20,12 @@ for i in list(range(10)):
 # button2.grid(row=9, column=1, sticky='WES')
 
 # mengatur button 3
-button3 = Button(text="save")
+button3 = Button(text="save",command=save)
 button3.grid(row=9, column=6, sticky='WES',columnspan=2)
 button3.configure(bg='#65B741',fg='#fff')
 
 # mengatur button 4
-button4 = Button(text="cancel")
+button4 = Button(text="cancel",command=closewindow)
 button4.grid(row=9, column=8, sticky='WES',columnspan=2)
 button4.configure(bg='#EF4040',fg='#fff')
 
