@@ -13,7 +13,7 @@ def clear_treeview():
     # tree.destroy()
     cols = [1,2,3,4]
     tree = ttk.Treeview(disp_frame, show="headings", columns=cols, height=12)
-    tree.grid()
+    tree.grid(row=0,column=0)
 
     save_btn.config(state=tk.DISABLED)
     clear_btn.config(state=tk.DISABLED)
@@ -26,15 +26,8 @@ def exit_program():
 
 def save():
     folder_path = filedialog.askdirectory()
-    # print(folder_path)
-    # print(type(folder_path))
 
     filtered_items = combo.get()
-    # print(filtered_items)
-    # print(list_values)
-    # print(type(list_values))
-    # df = pd.DataFrame(list_values)
-    # print(df.head)
 
     lists = [list(t) for t in list_values]
     # print(type(lists))
@@ -47,7 +40,7 @@ def save():
     
     for i, j in enumerate(item):
         df_filtered = df[df[filtered_items]==j]
-        # print(df_filtered)
+        # print(j)
         # df_filtered.to_csv(f'{folder_path}\\{i+1}. {j}.csv', index=False)
 
         progress_var.set((i+1)/len(item)*100)
@@ -85,10 +78,6 @@ def load_data(filepath):
 
     tree.place(relx=0, rely=0, width=w)
 
-    # global combo
-    # combo = ttk.Combobox(control_frame, values=column_names)
-    # combo.grid(row=0, column=1, padx=10, pady=5)
-    # combo.bind("<<ComboboxSelected>>", comboFunction)
     combo.config(values=column_names, state=tk.NORMAL)
     clear_btn.config(state=tk.NORMAL)
 
