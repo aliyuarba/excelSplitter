@@ -5,12 +5,9 @@ import pandas as pd
 import openpyxl
 import subprocess
 
-def check_combobox_state(event):
-    v = status_combobox.get() 
-    if v:
-        save_btn.config(state=tk.NORMAL)
-    else:
-        save_btn.config(state=tk.DISABLED)
+def comboFunction(event):
+    print(combo.get())
+    save_btn.config(state=tk.NORMAL)
 
 def exit_program():
     root.destroy()
@@ -20,32 +17,47 @@ def save():
     # print(folder_path)
     # print(type(folder_path))
 
-    filtered_items = status_combobox.get()
+    filtered_items = combo.get()
     # print(filtered_items)
     # print(list_values)
     # print(type(list_values))
     # df = pd.DataFrame(list_values)
     # print(df.head)
+
     lists = [list(t) for t in list_values]
     # print(type(lists))
+
     df = pd.DataFrame(lists[1:],columns=lists[0])
-    for i, j in enumerate(df[filtered_items].drop_duplicates()):
+
+    progress_bar.grid(row=3,column=0,sticky='ew')
+
+    item = df[filtered_items].drop_duplicates()
+    
+    for i, j in enumerate(item):
         df_filtered = df[df[filtered_items]==j]
         # print(df_filtered)
         # df_filtered.to_csv(f'{folder_path}\\{i+1}. {j}.csv', index=False)
+
+        progress_var.set((i+1)/len(item)*100)
+        root.update_idletasks()
+        progress_bar.update()
 
     cols = [1,2,3,4]
     tree = ttk.Treeview(disp_frame, show="headings", columns=cols, height=12)
     tree.grid()
 
-    status_combobox.set('')
-    status_combobox.state(['disabled'])
+    save_btn.config(state=tk.DISABLED)
 
-    save_btn = ttk.Button(execute_frame, text="save", command=save, state=tk.DISABLED)
-    save_btn.grid(row=0, column=0)
+    # combo = ttk.Combobox(control_frame, values=item, state=tk.DISABLED)
+    # combo.grid(row=0, column=1, padx=10, pady=5)
+
+    combo.set('')
+    combo.state(['disabled'])
 
     directory_path = rf'{folder_path.replace('/','\\')}'
     subprocess.Popen(f'explorer "{directory_path}"')
+
+    progress_bar.grid_forget()
 
 def load_data(filepath):
     workbook = openpyxl.load_workbook(filepath)
@@ -73,11 +85,10 @@ def load_data(filepath):
 
     tree.place(relx=0, rely=0, width=w)
 
-    global status_combobox
-    status_combobox = ttk.Combobox(control_frame, values=column_names, state=tk.NORMAL)
-    status_combobox.grid(row=0, column=1, padx=10, pady=5)
-    status_combobox.bind("<<ComboboxSelected>>", check_combobox_state)
-
+    global combo
+    combo = ttk.Combobox(control_frame, values=column_names)
+    combo.grid(row=0, column=1, padx=10, pady=5)
+    combo.bind("<<ComboboxSelected>>", comboFunction)
 
 def select_file():
     file_path = filedialog.askopenfilename(title="Select File", filetypes=[("Excel files", "*.xlsx;*.xls")])
@@ -88,12 +99,10 @@ def select_file():
 ######################################################################################################
 ######################################################################################################
 ######################################################################################################
-         
+
 combo_list = ['']
 
 root = tk.Tk()
-# root.maxsize(width=800, height=600)
-# root.geometry('800x600')
 
 # MAIN FRAME
 mainframe = ttk.Frame(root)
@@ -128,8 +137,9 @@ control_frame.grid(row=2,column=0, sticky='W', padx=(10,0))
 label1 = ttk.Label(control_frame, text='Pilih kolom untuk memfilter:')
 label1.grid(row=0,column=0)
 
-status_combobox = ttk.Combobox(control_frame, values=combo_list, state=tk.DISABLED)
-status_combobox.grid(row=0, column=1, padx=10, pady=5)
+# combo = ttk.Combobox(control_frame, values=combo_list)
+# combo.grid(row=0, column=1, padx=10, pady=5)
+# combo.state(['disabled'])
 
 execute_frame = ttk.Frame(mainframe)
 execute_frame.grid(row=2,column=0, sticky='E',padx=(0,10))
@@ -139,5 +149,9 @@ save_btn.grid(row=0, column=0)
 
 exit_btn = ttk.Button(execute_frame, text="exit", command=exit_program)
 exit_btn.grid(row=0, column=1)
+
+progress_var = tk.DoubleVar()
+progress_bar = ttk.Progressbar(mainframe, variable=progress_var, maximum=100)
+progress_bar.grid_forget()
 
 root.mainloop()
