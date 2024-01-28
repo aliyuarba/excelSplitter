@@ -5,6 +5,11 @@ import pandas as pd
 import openpyxl
 import subprocess
 
+def onxscroll(*args):
+    tree.xview(*args)
+def onyscroll(*args):
+    tree.yview(*args)
+
 def comboFunction(event):
     print(combo.get())
     save_btn.config(state=tk.NORMAL)
@@ -12,7 +17,7 @@ def comboFunction(event):
 def clear_treeview():
     # tree.destroy()
     cols = [1,2,3,4]
-    tree = ttk.Treeview(disp_frame, show="headings", columns=cols, height=12)
+    tree = ttk.Treeview(disp_frame, show="headings", columns=cols, height=14)
     tree.grid(row=0,column=0)
 
     save_btn.config(state=tk.DISABLED)
@@ -62,8 +67,13 @@ def load_data(filepath):
     # mengupdate treeview
     global tree
     w = tree.winfo_width()
+    h = tree.winfo_height()
     tree.grid_forget()
-    tree = ttk.Treeview(disp_frame, show="headings", columns=column_names, height=12)
+    tree = ttk.Treeview(disp_frame, show="headings", columns=column_names, height=14)
+
+    xscroll = ttk.Scrollbar(disp_frame, orient="horizontal", command=onxscroll)
+    yscroll = ttk.Scrollbar(disp_frame, orient="vertical", command=onyscroll)
+    tree.configure(xscrollcommand=xscroll.set, yscrollcommand=yscroll.set)
 
     for col in column_names:
         tree.heading(col, text=col)
@@ -73,6 +83,8 @@ def load_data(filepath):
     for i in list_values[1:]:
         tree.insert('',tk.END,values=i)
 
+    xscroll.place(x=0, y=h-20, height=20, width=w)
+    yscroll.place(x=w-20, y=0, height=h, width=20)
     tree.place(relx=0, rely=0, width=w)
 
     combo.config(values=column_names, state=tk.NORMAL)
@@ -111,7 +123,7 @@ disp_frame = ttk.Frame(mainframe)
 disp_frame.grid(row=1,column=0,pady=10,padx=10)
 
 cols = [1,2,3,4]
-tree = ttk.Treeview(disp_frame, show="headings", columns=cols, height=12)
+tree = ttk.Treeview(disp_frame, show="headings", columns=cols, height=14)
 tree.grid()
 
 # CONTROL FRAME
