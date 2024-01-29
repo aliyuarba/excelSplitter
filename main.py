@@ -84,7 +84,7 @@ def load_data(filepath):
 
     # CALL TREEVIEW AND THE SCROLLBAR TO FRAME
     xscroll.place(x=0, y=h-20, height=20, width=w)
-    yscroll.place(x=w-20, y=0, height=h, width=20)
+    yscroll.place(x=w-20, y=0, height=h-20, width=20)
     tree_onload.place(relx=0, rely=0, width=w)
 
     # DISABLING CHOOSE BUTTON
@@ -121,7 +121,7 @@ def save():
         # MAKE NEW DATAFRAME FROM MAIN DATAFRAME THAT FILTERED BY EACH ITEM
         df_filtered = df[df[filtered_items]==j]
         # CONVERT EACH NEW DATAFRAME TO MS EXCEL AND SAVE TO COMPUTER 
-        # df_filtered.to_excel(f'{folder_path}\\{i+1}. {j}.xlsx', index=False)
+        df_filtered.to_excel(f'{folder_path}\\{i+1}. {j}.xlsx', index=False)
 
         # UPDATING PROGRESSBAR
         progress_var.set((i+1)/len(item)*100)
@@ -130,8 +130,8 @@ def save():
 
     # OPEN OUTPUT DIRECTORY FOLDER
     directory_path = rf'explorer {folder_path.replace('/','\\')}'
-    # subprocess.Popen(f'explorer "{directory_path}"')
-    # subprocess.Popen()
+
+    # RUN CONFIRMATION BOX
     confirm_box(directory_path)
     # DELETE PROGRESSBAR AFTER THE PROCESS DONE
     progress_bar.grid_forget()
@@ -203,7 +203,7 @@ tree.grid(row=0,column=0)
 tree.bind("<Button-1>", select_file)
 
 # DROP FILE PLACEHOLDER
-label0 = ttk.Label(disp_frame, text='Just click this area \nor \ndrop your excel file here\n\nnote: make sure your active worksheet is only contain a table\nand not contain others data outside the table in your active worksheet',background='#fff',foreground='gray', justify=tk.CENTER)
+label0 = ttk.Label(disp_frame, text='Just click this area or drop your excel file here \nto load your data\n\nnote: Make sure your active worksheet only contains a table\nand does not contain any other data outside the table.',background='#fff',foreground='gray', justify=tk.CENTER)
 label0.grid(row=0,column=0)
 label0.bind("<Button-1>", select_file)
 
