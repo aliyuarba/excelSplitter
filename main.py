@@ -203,7 +203,7 @@ tree.grid(row=0,column=0)
 tree.bind("<Button-1>", select_file)
 
 # DROP FILE PLACEHOLDER
-label0 = ttk.Label(disp_frame, text='Just click this area \nor \ndrop your excel file here',background='#fff',foreground='gray', justify=tk.CENTER)
+label0 = ttk.Label(disp_frame, text='Just click this area \nor \ndrop your excel file here\n\nnote: make sure your active worksheet is only contain a table\nand not contain others data outside the table in your active worksheet',background='#fff',foreground='gray', justify=tk.CENTER)
 label0.grid(row=0,column=0)
 label0.bind("<Button-1>", select_file)
 
