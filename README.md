@@ -1,6 +1,6 @@
-# 🚀 New Release: excelinaja
+# 🚀 New Release: Excel Splitter
 
-We are pleased to announce the launch of our latest application, the Excelinaja, designed to efficiently divide data within Microsoft Excel spreadsheets. Below are the key features and installation steps:
+We are pleased to announce the launch of our latest application, the Excel Splitter, designed to efficiently divide data within Microsoft Excel spreadsheets. Below are the key features and installation steps:
 
 ## Key Features:
 
@@ -15,7 +15,7 @@ We are pleased to announce the launch of our latest application, the Excelinaja,
 
 ## Installation Steps:
 
-Download the latest version of excelinaja on public release.
+Download the latest version of Excel Splitter on public release.
 
 Locate the downloaded installer file on your computer.
 
@@ -24,7 +24,7 @@ Launch the application by double-click on excecutable file.
 
 ## How to Use the Application:
 
-Launch the excelinaja application
+Launch the Excel Splitter application
 
 Select the Excel file you wish to split.
 
@@ -35,4 +35,4 @@ Click 'save' and select the directory folder where you want to save the split fi
 Enjoy the results!
 
 
-excelinaja stands as the optimal solution to enhance your efficiency in Excel data processing. Download now and experience the ease of data splitting!
+Excel Splitter stands as the optimal solution to enhance your efficiency in Excel data processing. Download now and experience the ease of data splitting!
